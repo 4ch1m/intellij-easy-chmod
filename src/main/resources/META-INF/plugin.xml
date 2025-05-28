@@ -1,0 +1,39 @@
+<idea-plugin>
+    <id>de.achimonline.easychmod</id>
+
+    <name>Easy Chmod</name>
+
+    <vendor
+            email="intellij@achimonline.de"
+            url="https://www.achimonline.de">
+        Achim Seufert
+    </vendor>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable
+                id="EasyChmod"
+                groupId="tools"
+                key="settings.display.name"
+                instance="de.achimonline.easychmod.settings.EasyChmodConfigurable"/>
+
+        <applicationService serviceImplementation="de.achimonline.easychmod.settings.EasyChmodSettingsState"/>
+
+        <statusBarWidgetFactory
+                id="EasyChmod"
+                implementation="de.achimonline.easychmod.statusbar.EasyChmodStatusBarWidgetFactory"
+                order="after CodeStyleStatusBarWidget,before ReadOnlyAttribute"/>
+    </extensions>
+
+    <actions>
+        <action class="de.achimonline.easychmod.action.EasyChmodAction">
+            <add-to-group
+                    group-id="ProjectViewPopupMenu"
+                    anchor="after"
+                    relative-to-action="ProjectViewPopupMenuRefactoringGroup"/>
+        </action>
+    </actions>
+
+    <resource-bundle>messages.EasyChmodBundle</resource-bundle>
+</idea-plugin>
