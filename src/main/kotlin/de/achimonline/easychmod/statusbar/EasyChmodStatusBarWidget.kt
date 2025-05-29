@@ -6,8 +6,6 @@ import com.intellij.openapi.fileEditor.TextEditor
 import com.intellij.openapi.util.NlsContexts
 import com.intellij.openapi.wm.TextWidgetPresentation
 import com.intellij.openapi.wm.WidgetPresentationDataContext
-import com.intellij.openapi.wm.impl.status.EditorBasedWidgetHelper
-import com.intellij.openapi.wm.impl.status.PositionPanel.Companion.DISABLE_FOR_EDITOR
 import de.achimonline.easychmod.base.EasyChmodFilePermissions
 import de.achimonline.easychmod.bundle.EasyChmodBundle.message
 import de.achimonline.easychmod.action.EasyChmodActionDialog
@@ -21,10 +19,7 @@ import kotlin.io.path.Path
 import kotlin.io.path.getPosixFilePermissions
 import kotlin.time.Duration.Companion.milliseconds
 
-class EasyChmodStatusBarWidget(
-    private val dataContext: WidgetPresentationDataContext,
-    private val widgetHelper: EditorBasedWidgetHelper = EditorBasedWidgetHelper(dataContext.project)
-) : TextWidgetPresentation {
+class EasyChmodStatusBarWidget(private val dataContext: WidgetPresentationDataContext) : TextWidgetPresentation {
     private val settings = EasyChmodSettingsState.instance.settings
 
     init {
@@ -41,7 +36,7 @@ class EasyChmodStatusBarWidget(
         ) { _, fileEditor -> (fileEditor as? TextEditor)?.editor }
             .debounce(100.milliseconds)
             .mapLatest { editor ->
-                if (editor == null || DISABLE_FOR_EDITOR.isIn(editor)) null else readAction { getDisplayString(editor) }
+                if (editor == null) null else readAction { getDisplayString(editor) }
             }
     }
 
@@ -51,14 +46,12 @@ class EasyChmodStatusBarWidget(
 
     override fun getClickConsumer(): ((MouseEvent) -> Unit)? {
         return h@{
-            val project = widgetHelper.project
             val filePath = dataContext.currentFileEditor.value?.file?.path
 
             if (filePath != null) {
                 val path = Path(filePath)
 
                 EasyChmodActionDialog(
-                    project,
                     path,
                     EasyChmodFilePermissions.fromPosixFilePermissions(path.getPosixFilePermissions())
                 ).showAndExecute()

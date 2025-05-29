@@ -86,7 +86,7 @@ class EasyChmodConfigurable : BoundConfigurable(message("settings.display.name")
                             "settings.feedback",
                             "https://paypal.me/AchimSeufert",
                             "https://github.com/4ch1m/intellij-easy-chmod",
-                            "https://plugins.jetbrains.com/vendor/a04b3664-b76d-4d32-9bd8-71f948b7c97c" // TODO replace with actual plugin link
+                            "https://plugins.jetbrains.com/plugin/27492-easy-chmod"
                         )
                     )
                 }

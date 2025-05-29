@@ -12,13 +12,11 @@ import kotlin.io.path.getPosixFilePermissions
 
 class EasyChmodAction : DumbAwareAction(message("action.text")) {
     override fun actionPerformed(anActionEvent: AnActionEvent) {
-        val project = anActionEvent.project ?: return
         val selected = anActionEvent.getData(CommonDataKeys.VIRTUAL_FILE_ARRAY)?.first() ?: return
         val path = Path(selected.path)
 
         if (selected is VirtualFileSystemEntry) {
             EasyChmodActionDialog(
-                project,
                 path,
                 EasyChmodFilePermissions.fromPosixFilePermissions(path.getPosixFilePermissions())
             ).showAndExecute()

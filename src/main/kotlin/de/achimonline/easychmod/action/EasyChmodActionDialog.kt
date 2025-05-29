@@ -1,7 +1,6 @@
 package de.achimonline.easychmod.action
 
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.DialogWrapper
 import com.intellij.openapi.ui.Messages
@@ -27,10 +26,9 @@ import kotlin.io.path.setPosixFilePermissions
 import kotlin.reflect.KMutableProperty0
 
 class EasyChmodActionDialog(
-    val project: Project,
     val filePath: Path,
     val easyChmodFilePermissions: EasyChmodFilePermissions
-) : DialogWrapper(project) {
+) : DialogWrapper(null) {
     private var settings: EasyChmodSettings
 
     private lateinit var dialogPanel: DialogPanel
@@ -241,7 +239,6 @@ class EasyChmodActionDialog(
                 filePath.setPosixFilePermissions(easyChmodFilePermissions.toPosixFilePermissions())
             } catch (_: Exception) {
                 Messages.showErrorDialog(
-                    project,
                     EasyChmodBundle.message("dialog.action.fail.message", filePath.pathString),
                     EasyChmodBundle.message("dialog.action.fail.title")
                 )
