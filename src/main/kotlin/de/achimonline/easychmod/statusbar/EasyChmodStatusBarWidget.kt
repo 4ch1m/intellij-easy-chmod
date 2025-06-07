@@ -15,6 +15,7 @@ import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import java.awt.Component
 import java.awt.event.MouseEvent
+import java.nio.file.Files
 import kotlin.io.path.Path
 import kotlin.io.path.getPosixFilePermissions
 import kotlin.time.Duration.Companion.milliseconds
@@ -63,6 +64,10 @@ class EasyChmodStatusBarWidget(private val dataContext: WidgetPresentationDataCo
 
     private fun getDisplayString(editor: Editor): @NlsContexts.Label String {
         if (editor.isDisposed) return ""
+
+        if (!Files.exists(Path(editor.virtualFile.path))) {
+            return "[ / ]"
+        }
 
         val posixFilePermissions = Path(editor.virtualFile.path).getPosixFilePermissions()
         val easyChmodFilePermissions = EasyChmodFilePermissions.fromPosixFilePermissions(posixFilePermissions)

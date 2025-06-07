@@ -53,14 +53,14 @@ Or go to the [plugin page](https://plugins.jetbrains.com/plugin/27492-easy-chmod
 
 ## Notes
 
-* This plugin deliberately doesn't operate in bulk but only changes file permissions for one file/directory at a time. 
+* This plugin deliberately doesn't operate in bulk but only changes permissions for one file/directory at a time. 
 * Each file/directory permission preset (configured in the settings-dialog) can have a regex filter.  
   If the regex matches with the chosen file/directory (upon opening the edit dialog), then this preset entry will automatically get selected for ease-of-use.  
   The order of all presets can be important, because once a regex matches, all further evaluation of regexes will be skipped.
 
 ## Credits
 
-Plugin icon based on [file-csv](https://fontawesome.com/icons/file-csv?f=classic&s=solid) / [Font Awesome](https://fontawesome.com)
+Plugin icon based on [file-csv](https://fontawesome.com/icons/file-csv?f=classic&s=solid) / [Font Awesome](https://fontawesome.com).
 
 ## License
 

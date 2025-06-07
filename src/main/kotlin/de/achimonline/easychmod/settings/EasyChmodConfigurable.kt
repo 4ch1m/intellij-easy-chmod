@@ -160,10 +160,6 @@ class EasyChmodConfigurable : BoundConfigurable(message("settings.display.name")
             if (columnIndex == DESCRIPTION.ordinal) {
                 preset.description = aValue as String
             }
-
-            if (columnIndex == REGEX.ordinal) {
-                preset.regex = aValue as String
-            }
         }
 
         override fun removeRow(index: Int) {
@@ -172,7 +168,7 @@ class EasyChmodConfigurable : BoundConfigurable(message("settings.display.name")
         }
 
         override fun isCellEditable(rowIndex: Int, columnIndex: Int): Boolean {
-            return listOf(DESCRIPTION.ordinal, REGEX.ordinal).contains(columnIndex)
+            return columnIndex == DESCRIPTION.ordinal
         }
     }
 
@@ -202,10 +198,10 @@ class EasyChmodConfigurable : BoundConfigurable(message("settings.display.name")
     private fun editPreset() {
         val selectedPreset = editedSettings.presets[presetsTable.selectedRow]
         val presetToBeEdited = EasyChmodPreset(
-            selectedPreset.description,
-            selectedPreset.fileType,
-            selectedPreset.regex,
-            selectedPreset.permissions.copy()
+            description = selectedPreset.description,
+            fileType = selectedPreset.fileType,
+            regex = selectedPreset.regex,
+            permissions = selectedPreset.permissions.copy()
         )
 
         if (EasyChmodPresetDialog(presetToBeEdited).showAndGet()) {

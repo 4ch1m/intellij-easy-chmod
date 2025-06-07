@@ -2,6 +2,7 @@ package de.achimonline.easychmod.settings
 
 import com.intellij.openapi.ui.DialogPanel
 import com.intellij.openapi.ui.DialogWrapper
+import com.intellij.openapi.ui.ValidationInfo
 import com.intellij.ui.EnumComboBoxModel
 import com.intellij.ui.dsl.builder.AlignX
 import com.intellij.ui.dsl.builder.BottomGap
@@ -12,7 +13,11 @@ import com.intellij.ui.dsl.builder.bindSelected
 import com.intellij.ui.dsl.builder.bindText
 import com.intellij.ui.dsl.builder.panel
 import com.intellij.ui.dsl.builder.toNullableProperty
+import com.intellij.ui.layout.ValidationInfoBuilder
 import de.achimonline.easychmod.bundle.EasyChmodBundle
+import de.achimonline.easychmod.bundle.EasyChmodBundle.message
+import java.util.regex.Pattern
+import java.util.regex.PatternSyntaxException
 import javax.swing.JComponent
 import javax.swing.JLabel
 
@@ -44,7 +49,11 @@ class EasyChmodPresetDialog(val easyChmodPreset: EasyChmodPreset) : DialogWrappe
             }
 
             row(EasyChmodBundle.message("dialog.preset.regex")) {
-                textField().bindText(easyChmodPreset::regex)
+                textField()
+                    .bindText(easyChmodPreset::regex)
+                    .validationInfo {
+                        validatePresetRegEx(it.text)
+                    }
             }
 
             row {
@@ -144,5 +153,15 @@ class EasyChmodPresetDialog(val easyChmodPreset: EasyChmodPreset) : DialogWrappe
 
         othersOctalLabel.text = "${easyChmodPreset.permissions.othersOctal()}"
         othersSymbolLabel.text = easyChmodPreset.permissions.othersSymbolic()
+    }
+
+    private fun ValidationInfoBuilder.validatePresetRegEx(regEx: String): ValidationInfo? {
+        try {
+            Pattern.compile(regEx)
+        } catch (_: PatternSyntaxException) {
+            return error(message("settings.presets.dialog.invalid.regex"))
+        }
+
+        return null
     }
 }
