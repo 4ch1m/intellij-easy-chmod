@@ -75,7 +75,7 @@ data class EasyChmodFilePermissions(
         if (groupWrite) posixFilePermissions.add(PosixFilePermission.GROUP_WRITE)
         if (groupExecute) posixFilePermissions.add(PosixFilePermission.GROUP_EXECUTE)
         if (othersRead) posixFilePermissions.add(PosixFilePermission.OTHERS_READ)
-        if (othersWrite) posixFilePermissions.add(PosixFilePermission.OTHERS_EXECUTE)
+        if (othersWrite) posixFilePermissions.add(PosixFilePermission.OTHERS_WRITE)
         if (othersExecute) posixFilePermissions.add(PosixFilePermission.OTHERS_EXECUTE)
 
         return posixFilePermissions

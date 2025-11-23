@@ -1,3 +1,11 @@
+## [1.3.0]
+
+### Fixed
+- setting write-permission for "others"
+
+### Changed
+- removed usage of "internal API"
+
 ## [1.2.2]
 
 ### Changed
