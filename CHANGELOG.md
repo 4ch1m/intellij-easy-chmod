@@ -1,3 +1,10 @@
+## [1.3.1]
+
+### Changed
+- minor code improvements
+- dependency updates
+- Gradle-wrapper update
+
 ## [1.3.0]
 
 ### Fixed

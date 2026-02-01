@@ -65,18 +65,22 @@ class EasyChmodStatusBarWidget(private val dataContext: WidgetPresentationDataCo
     private fun getDisplayString(editor: Editor): @NlsContexts.Label String {
         if (editor.isDisposed) return ""
 
-        if (!Files.exists(Path(editor.virtualFile.path))) {
-            return "[ / ]"
+        editor.virtualFile?.let { virtualFile ->
+            if (!Files.exists(Path(virtualFile.path))) {
+                return "[ / ]"
+            }
+
+            val posixFilePermissions = Path(virtualFile.path).getPosixFilePermissions()
+            val easyChmodFilePermissions = EasyChmodFilePermissions.fromPosixFilePermissions(posixFilePermissions)
+
+            return if (settings.statusBarDisplayFormat == EasyChmodStatusBarDisplayFormat.SYMBOLIC) {
+                "[ ${easyChmodFilePermissions.allSymbols()} ]"
+            } else {
+                "[ ${easyChmodFilePermissions.allOctals()} ]"
+            }
         }
 
-        val posixFilePermissions = Path(editor.virtualFile.path).getPosixFilePermissions()
-        val easyChmodFilePermissions = EasyChmodFilePermissions.fromPosixFilePermissions(posixFilePermissions)
-
-        return if (settings.statusBarDisplayFormat == EasyChmodStatusBarDisplayFormat.SYMBOLIC) {
-            "[ ${easyChmodFilePermissions.allSymbols()} ]"
-        } else {
-            "[ ${easyChmodFilePermissions.allOctals()} ]"
-        }
+        return "[ ? ]"
     }
 
     companion object {
